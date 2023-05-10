@@ -1,6 +1,6 @@
 import torch 
 import torch.nn as nn
-from utils.utils import data_loader
+from utils.data_loader import data_loader
 from models.resnet import ResNet, ResidualBlock
 from torch.utils.tensorboard import SummaryWriter
 import numpy as np
@@ -18,8 +18,8 @@ batch_size = 128
 num_epochs = 32
 
 # Load dataset
-data_dir = "/media/data/Project_Only/Pytorch_Tutorials/data/RAFDB/aligned"
-label_file = "/media/data/Project_Only/Pytorch_Tutorials/data/RAFDB/list_patition_label.txt"
+data_dir = "/media/data/Project_Only/FER_Pytorch/data/aligned"
+label_file = "/media/data/Project_Only/FER_Pytorch/data/list_patition_label.txt"
 train_loader, valid_loader = data_loader(data_dir=data_dir, label_file=label_file, batch_size=batch_size)
 
 # Define model
