@@ -22,7 +22,7 @@ data_dir = "/media/data/Project_Only/FER_Pytorch/data/aligned"
 label_file = "/media/data/Project_Only/FER_Pytorch/data/list_patition_label.txt"
 train_loader, valid_loader = data_loader(data_dir=data_dir, label_file=label_file, batch_size=batch_size)
 
-# Define model
+# Define & load model
 model = ResNet(ResidualBlock, [3, 4, 6, 3]).to(device)
 
 # Loss and optimizer
@@ -80,4 +80,4 @@ writer.close()
 
 # Save the model checkpoint
 save_dir = "./weights"
-torch.save(model.state_dict(), os.path.join(save_dir, 'resnet_50.ckpt'))
+torch.save(model.state_dict(), os.path.join(save_dir, 'resnet_50.pt'))

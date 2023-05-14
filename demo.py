@@ -13,8 +13,9 @@ import os
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print("Device available:", device)
 
-# Define model
+# Define model Resnet
 model = ResNet(ResidualBlock, [3, 4, 6, 3]).to(device)
+model.load_state_dict(torch.load('./weights/resnet_50.pt'))
 print("Load model Resnet sucessfully")
 
 # Define data transformations for augmentation
@@ -37,7 +38,7 @@ input_data = torch.unsqueeze(input_data, 0)
 output = model(input_data)
 
 # Convert output to probabilities using softmax
-softmax = nn.Softmax(dim=1)
+softmax = torch.nn.Softmax(dim=1)
 probs = softmax(output)
 
 # Get the predicted class label with the highest probability

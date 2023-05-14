@@ -74,4 +74,4 @@ writer.close()
 
 # Save the model checkpoint
 save_dir = "./weights"
-torch.save(model.state_dict(), os.path.join(save_dir, 'vgg_16.ckpt'))
+torch.save(model.state_dict(), os.path.join(save_dir, 'vgg_16.pt'))
