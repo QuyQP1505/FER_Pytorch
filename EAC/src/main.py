@@ -17,11 +17,13 @@ import torch.utils.data as data
 import torch.nn.functional as F
 
 import sys
-sys.path.insert(0, '/media/data/Project_Only/FER_Pytorch/utils')
-from data_loader import data_loader
+sys.path.insert(0, '/media/data/Project_Only/FER_Pytorch')
+from models.resnet import ResNet, ResidualBlock
+from utils.data_loader import data_loader
+
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--raf_path', type=str, default='./data/aligned', help='raf_dataset_path')
+parser.add_argument('--raf_path', type=str, default='/media/data/Project_Only/FER_Pytorch/data/aligned', help='raf_dataset_path_train')
 parser.add_argument('--resnet50_path', type=str, default='./models/resnet50.pt', help='pretrained_backbone_path')
 parser.add_argument('--label_path', type=str, default='./data/list_patition_label.txt', help='label_path')
 parser.add_argument('--workers', type=int, default=4, help='number of workers')
