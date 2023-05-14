@@ -16,10 +16,13 @@ import torchvision.models as models
 import torch.utils.data as data
 import torch.nn.functional as F
 
+from utils import add_g, flip_image, setup_seed
+
 import sys
 sys.path.insert(0, '/media/data/Project_Only/FER_Pytorch')
-from models.resnet import ResNet, ResidualBlock
 from utils.data_loader import data_loader
+from models.resnet import ResNet, ResidualBlock
+
 
 
 parser = argparse.ArgumentParser()
@@ -45,25 +48,27 @@ def train(args, model, train_loader, optimizer, scheduler, device):
     model.train()
 
     total_loss = []
-    for batch_i, (imgs1, labels, indexes, imgs2) in enumerate(train_loader):
+    for batch_i, (imgs1, labels) in enumerate(train_loader):
+
+        imgs2 = torch.copy(imgs1)
+        imgs2 = flip_image(imgs1)
+
+        if random.uniform(0, 1) > 0.5: 
+            imgs1 = add_g(image)
+
         imgs1 = imgs1.to(device)
         imgs2 = imgs2.to(device)
         labels = labels.to(device)
 
-
         criterion = nn.CrossEntropyLoss(reduction='none')
-
-
 
         output, hm1 = model(imgs1)
         output_flip, hm2 = model(imgs2)
         
         grid_l = generate_flip_grid(args.w, args.h, device)
         
-
         loss1 = nn.CrossEntropyLoss()(output, labels)
         flip_loss_l = ACLoss(hm1, hm2, grid_l, output)
-
 
         loss = loss1 + args.lam * flip_loss_l
 
@@ -123,7 +128,7 @@ def test(model, test_loader, device):
         
 def main():    
     
-    # setup_seed(0)
+    setup_seed(0)
     
     train_loader, test_loader = data_loader(data_dir=args.raf_path, 
                                             label_file=args.label_path, 
